@@ -61,6 +61,6 @@ export const DocumentTextIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props)
 
 export const ShareIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg {...props} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.195.025.39.042.583.05a2.25 2.25 0 012.25 2.25c0 .285-.042.56-.118.822m-1.636 1.365a2.25 2.25 0 100-2.186m0 2.186a2.25 2.25 0 002.25 2.25c0 .285.042.56.118.822m0-2.186L12 12.5m0 0l4.5 4.5m-4.5-4.5L7.5 17m4.5-4.5-4.5-4.5m4.5 4.5v-4.5" />
+    <path strokeLinecap="round" strokeLinejoin="round" d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15m0-3-3-3m0 0-3 3m3-3V15" />
   </svg>
 );

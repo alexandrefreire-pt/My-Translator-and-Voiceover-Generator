@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback } from 'react';
-import { UploadIcon, MicIcon, StopIcon, DocumentTextIcon } from './Icons';
+import { UploadIcon, StopIcon, DocumentTextIcon } from './Icons';
 
 interface AudioInputProps {
   onSubmit: (audioBlob: Blob) => void;
@@ -87,8 +87,7 @@ const AudioInput: React.FC<AudioInputProps> = ({ onSubmit, onTextSubmit }) => {
             onClick={startRecording}
             className="flex items-center justify-center px-6 py-3 space-x-3 font-bold text-white transition-colors rounded-full bg-brand-primary hover:bg-brand-secondary"
           >
-            <MicIcon className="w-6 h-6" />
-            <span>Start Recording</span>
+            <span>Start Recording 🎙️</span>
           </button>
         ) : (
           <button
