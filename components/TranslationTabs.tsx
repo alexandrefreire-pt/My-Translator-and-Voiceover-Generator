@@ -115,8 +115,8 @@ const TranslationTabs: React.FC<TranslationTabsProps> = ({ translations, activeT
               onClick={() => onTabClick(translation.languageCode)}
               className={`${
                 activeTab === translation.languageCode
-                  ? 'border-brand-primary text-brand-light'
-                  : 'border-transparent text-gray-light hover:text-white hover:border-gray-light'
+                  ? 'border-brand-primary text-brand-primary'
+                  : 'border-transparent text-gray-500 hover:text-brand-primary hover:border-gray-300'
               } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors`}
             >
               {translation.language}
@@ -131,7 +131,7 @@ const TranslationTabs: React.FC<TranslationTabsProps> = ({ translations, activeT
             <textarea
               readOnly
               value={activeTranslation.text}
-              className="w-full h-48 p-3 bg-gray-dark border border-gray-medium rounded-md resize-none focus:ring-2 focus:ring-brand-primary focus:outline-none"
+              className="w-full h-48 p-3 bg-white border border-gray-medium rounded-md resize-none focus:ring-2 focus:ring-brand-primary focus:outline-none text-gray-800"
             />
             <div className="mt-4 flex flex-wrap items-center gap-3">
               
@@ -139,7 +139,7 @@ const TranslationTabs: React.FC<TranslationTabsProps> = ({ translations, activeT
                 <button
                     onClick={() => onGenerateVoiceover(activeTranslation.languageCode)}
                     disabled={activeTranslation.isGeneratingAudio}
-                    className="flex items-center justify-center px-5 py-2.5 bg-brand-secondary text-white font-bold rounded-md hover:bg-purple-700 transition-colors disabled:bg-gray-medium disabled:cursor-not-allowed"
+                    className="flex items-center justify-center px-5 py-2.5 bg-brand-primary text-white font-bold rounded-md hover:bg-brand-secondary transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
                 >
                     {activeTranslation.isGeneratingAudio ? (
                         <><SpinnerIcon className="w-5 h-5 mr-2"/><span>Generating...</span></>
@@ -151,7 +151,7 @@ const TranslationTabs: React.FC<TranslationTabsProps> = ({ translations, activeT
                 <>
                     <button 
                       onClick={handlePlayPause}
-                      className="flex items-center justify-center px-5 py-2.5 bg-brand-secondary text-white font-bold rounded-md hover:bg-purple-700 transition-colors"
+                      className="flex items-center justify-center px-5 py-2.5 bg-brand-primary text-white font-bold rounded-md hover:bg-brand-secondary transition-colors"
                     >
                       {isPlaying ? (
                         <><PauseIcon className="w-5 h-5 mr-2" /><span>Pause</span></>

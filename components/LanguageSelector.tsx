@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { LANGUAGES } from '../constants';
 import { ChevronDownIcon } from './Icons';
@@ -42,26 +41,26 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({ selectedLanguages, 
     <div className="relative w-full" ref={wrapperRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center justify-between w-full px-4 py-3 text-left bg-gray-dark border rounded-md border-gray-medium focus:outline-none focus:ring-2 focus:ring-brand-primary"
+        className="flex items-center justify-between w-full px-4 py-3 text-left bg-white border rounded-md border-gray-medium focus:outline-none focus:ring-2 focus:ring-brand-primary text-gray-800"
       >
         <span>{getButtonText()}</span>
         <ChevronDownIcon className={`w-5 h-5 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
       {isOpen && (
-        <div className="absolute z-10 w-full mt-2 bg-gray-dark border rounded-md shadow-lg max-h-60 overflow-y-auto border-gray-medium">
+        <div className="absolute z-10 w-full mt-2 bg-white border rounded-md shadow-lg max-h-60 overflow-y-auto border-gray-medium">
           <ul className="py-1">
             {LANGUAGES.map(lang => (
               <li
                 key={lang.code}
                 onClick={() => handleSelect(lang.code)}
-                className="flex items-center px-4 py-2 cursor-pointer hover:bg-gray-medium"
+                className="flex items-center px-4 py-2 cursor-pointer hover:bg-gray-100 text-gray-800"
               >
                 <input
                   type="checkbox"
                   checked={selectedLanguages.includes(lang.code)}
                   readOnly
-                  className="w-4 h-4 mr-3 rounded text-brand-primary bg-gray-medium border-gray-light focus:ring-brand-secondary"
+                  className="w-4 h-4 mr-3 rounded text-brand-primary bg-gray-100 border-gray-300 focus:ring-brand-secondary"
                 />
                 <span>{lang.name}</span>
               </li>

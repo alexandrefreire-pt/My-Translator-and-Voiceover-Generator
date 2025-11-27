@@ -3,6 +3,7 @@ import AudioInput from './components/AudioInput';
 import LanguageSelector from './components/LanguageSelector';
 import TranslationTabs from './components/TranslationTabs';
 import { SpinnerIcon } from './components/Icons';
+import Logo from './components/Logo';
 import { transcribeAudio, translateText, generateVoiceover, detectLanguageFromText } from './services/geminiService';
 import { fileToBase64 } from './utils/audioUtils';
 import type { Translation } from './types';
@@ -159,24 +160,24 @@ const App: React.FC = () => {
           <div className="w-full">
             <div className="flex justify-between items-center mb-4">
                <div>
-                  <h3 className="text-lg font-semibold text-brand-light">Original Transcript</h3>
+                  <h3 className="text-lg font-semibold text-brand-primary">Original Transcript</h3>
                   {detectedLanguage && (
-                      <div className="flex items-center space-x-2 text-sm text-gray-light mt-1">
+                      <div className="flex items-center space-x-2 text-sm text-gray-600 mt-1">
                           <Flag languageCode={detectedLanguage.code} />
                           <span>{detectedLanguage.name}</span>
                       </div>
                   )}
               </div>
               {!isEditingTranscript ? (
-                  <button onClick={handleEditTranscript} className="px-3 py-1 text-sm rounded-md border border-gray-medium text-brand-light hover:bg-gray-medium transition-colors flex-shrink-0">
+                  <button onClick={handleEditTranscript} className="px-3 py-1 text-sm rounded-md border border-gray-medium text-brand-primary hover:bg-gray-100 transition-colors flex-shrink-0">
                     Edit
                   </button>
               ) : (
                 <div className="space-x-2 flex-shrink-0">
-                  <button onClick={handleSaveTranscript} className="px-3 py-1 text-sm rounded-md border border-green-500 text-green-400 hover:bg-green-500/20 transition-colors">
+                  <button onClick={handleSaveTranscript} className="px-3 py-1 text-sm rounded-md border border-green-500 text-green-600 hover:bg-green-50 transition-colors">
                     Save
                   </button>
-                  <button onClick={handleCancelEdit} className="px-3 py-1 text-sm rounded-md border border-red-500 text-red-400 hover:bg-red-500/20 transition-colors">
+                  <button onClick={handleCancelEdit} className="px-3 py-1 text-sm rounded-md border border-red-500 text-red-600 hover:bg-red-50 transition-colors">
                     Cancel
                   </button>
                 </div>
@@ -186,18 +187,18 @@ const App: React.FC = () => {
               readOnly={!isEditingTranscript}
               value={isEditingTranscript ? tempTranscript : originalTranscript}
               onChange={(e) => setTempTranscript(e.target.value)}
-              className={`w-full h-32 p-3 bg-gray-dark border border-gray-medium rounded-md resize-none focus:outline-none transition-all ${isEditingTranscript ? 'ring-2 ring-brand-primary' : 'focus:ring-2 focus:ring-brand-primary'}`}
+              className={`w-full h-32 p-3 bg-white border border-gray-medium rounded-md resize-none focus:outline-none transition-all ${isEditingTranscript ? 'ring-2 ring-brand-primary' : 'focus:ring-2 focus:ring-brand-primary'}`}
             />
             
             {step === 'transcribed' && (
                <div className="mt-6">
-                 <h3 className="text-lg font-semibold text-brand-light mb-2">Translate To</h3>
+                 <h3 className="text-lg font-semibold text-brand-primary mb-2">Translate To</h3>
                  <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
                     <LanguageSelector selectedLanguages={selectedLanguages} onChange={setSelectedLanguages} />
                     <button
                         onClick={handleTranslate}
                         disabled={selectedLanguages.length === 0}
-                        className="w-full sm:w-auto px-6 py-3 bg-brand-primary text-white font-bold rounded-md hover:bg-brand-secondary transition-colors disabled:bg-gray-medium disabled:cursor-not-allowed flex-shrink-0"
+                        className="w-full sm:w-auto px-6 py-3 bg-brand-primary text-white font-bold rounded-md hover:bg-brand-secondary transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed flex-shrink-0"
                     >
                         Translate
                     </button>
@@ -223,27 +224,28 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-dark flex flex-col items-center justify-center p-4 font-sans">
       <div className="w-full max-w-4xl mx-auto">
-        <header className="text-center mb-8">
-          <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-brand-light">
+        <header className="flex flex-col items-center mb-8">
+          <Logo className="w-20 h-20 text-brand-primary mb-4" />
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-800 text-center">
             My Translator and Voiceover Generator
           </h1>
-          <p className="text-gray-light mt-2">Created by Alexandre Freire</p>
+          <p className="text-gray-600 mt-2 text-sm">Created by Alexandre Freire</p>
         </header>
         
-        <main className="bg-gray-medium/20 border border-gray-medium rounded-lg shadow-2xl p-6 md:p-8 min-h-[30rem] flex flex-col items-center justify-center transition-all duration-300">
-           {error && <div className="bg-red-500/20 border border-red-500 text-red-300 p-3 rounded-md mb-6 w-full text-center">{error}</div>}
+        <main className="bg-white border border-gray-medium rounded-lg shadow-xl p-6 md:p-8 min-h-[30rem] flex flex-col items-center justify-center transition-all duration-300">
+           {error && <div className="bg-red-100 border border-red-500 text-red-700 p-3 rounded-md mb-6 w-full text-center">{error}</div>}
            {renderContent()}
         </main>
 
         {(step !== 'initial' && step !== 'transcribing') && (
             <div className="mt-6 text-center">
-                <button onClick={handleReset} className="text-brand-light hover:underline">
+                <button onClick={handleReset} className="text-brand-primary hover:underline font-medium">
                     Start Over
                 </button>
             </div>
         )}
 
-        <footer className="text-center mt-8 text-gray-500 text-sm">
+        <footer className="text-center mt-8 text-gray-500 text-xs">
             <p>&copy; {new Date().getFullYear()} AI Voice Lab. All rights reserved.</p>
         </footer>
       </div>
