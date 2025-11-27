@@ -85,14 +85,14 @@ const AudioInput: React.FC<AudioInputProps> = ({ onSubmit, onTextSubmit }) => {
         {!isRecording ? (
           <button
             onClick={startRecording}
-            className="flex items-center justify-center px-6 py-3 space-x-3 font-bold text-white transition-colors rounded-full bg-brand-primary hover:bg-brand-secondary shadow-md hover:shadow-lg"
+            className="flex items-center justify-center px-6 py-3 space-x-3 font-bold text-white transition-colors rounded-md bg-brand-primary hover:bg-brand-secondary shadow-sm hover:shadow-md"
           >
             <span>Start Recording 🎙️</span>
           </button>
         ) : (
           <button
             onClick={stopRecording}
-            className="flex items-center justify-center px-6 py-3 space-x-3 font-bold text-white transition-colors bg-red-600 rounded-full hover:bg-red-700 animate-pulse shadow-md"
+            className="flex items-center justify-center px-6 py-3 space-x-3 font-bold text-white transition-colors bg-brand-primary rounded-md hover:bg-brand-secondary animate-pulse shadow-sm"
           >
             <StopIcon className="w-6 h-6" />
             <span>Stop Recording</span>

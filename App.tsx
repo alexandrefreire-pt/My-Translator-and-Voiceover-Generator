@@ -26,7 +26,7 @@ const App: React.FC = () => {
 
   const handleAudioSubmit = useCallback(async (audioBlob: Blob) => {
     setStep('transcribing');
-    setLoadingMessage('Transcribing to Portuguese...');
+    setLoadingMessage('Transcribing audio...');
     setError(null);
     setDetectedLanguage(null);
     try {
@@ -198,7 +198,7 @@ const App: React.FC = () => {
                     <button
                         onClick={handleTranslate}
                         disabled={selectedLanguages.length === 0}
-                        className="w-full sm:w-auto px-6 py-3 bg-brand-primary text-white font-bold rounded-md hover:bg-brand-secondary transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed flex-shrink-0"
+                        className="w-full sm:w-auto px-6 py-3 bg-brand-primary text-white font-bold rounded-md hover:bg-brand-secondary transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed flex-shrink-0 shadow-sm"
                     >
                         Translate
                     </button>

@@ -47,8 +47,12 @@ export async function transcribeAudio(audioBase64: string, mimeType: string): Pr
     },
   };
   const textPart = {
-    text: `Transcribe the spoken audio into European Portuguese (Portuguese from Portugal).
-Provide the output as a single JSON object with three keys: "languageName" which should be "Portuguese (Portugal)", "languageCode" which should be "pt", and "transcript" which is the transcribed text in European Portuguese.`,
+    text: `Transcribe the spoken audio exactly as it is spoken, in its original language.
+    Do not translate. Detect the language from the audio.
+    Provide the output as a single JSON object with three keys: 
+    "languageName" (the full name of the detected language), 
+    "languageCode" (the ISO 639-1 code), 
+    and "transcript" (the transcribed text in the detected original language).`,
   };
   
   const response = await ai.models.generateContent({
@@ -59,9 +63,9 @@ Provide the output as a single JSON object with three keys: "languageName" which
         responseSchema: {
             type: Type.OBJECT,
             properties: {
-                languageName: { type: Type.STRING, description: "The full name of the detected language. Should be 'Portuguese (Portugal)'." },
-                languageCode: { type: Type.STRING, description: "The ISO 639-1 code for the language. Should be 'pt'." },
-                transcript: { type: Type.STRING, description: "The transcribed text in European Portuguese." },
+                languageName: { type: Type.STRING, description: "The full name of the detected language." },
+                languageCode: { type: Type.STRING, description: "The ISO 639-1 code for the language." },
+                transcript: { type: Type.STRING, description: "The transcribed text in the original language." },
             },
             required: ["languageName", "languageCode", "transcript"],
         }

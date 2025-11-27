@@ -1,6 +1,6 @@
 {
   "name": "My Translator and Voiceover Generator",
-  "description": "Upload or record audio, transcribe it to European Portuguese, then translate and generate voiceovers in over 50 languages using Gemini.",
+  "description": "Upload or record audio, transcribe it in its original language, then translate and generate voiceovers in over 50 languages using Gemini.",
   "requestFramePermissions": [
     "microphone"
   ]

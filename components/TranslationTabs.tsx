@@ -105,6 +105,9 @@ const TranslationTabs: React.FC<TranslationTabsProps> = ({ translations, activeT
     }
   };
 
+  // Standard button classes for consistency across the app
+  const buttonClass = "flex items-center justify-center px-4 py-2 bg-brand-primary text-white font-bold rounded-md hover:bg-brand-secondary transition-colors shadow-sm disabled:bg-gray-400 disabled:cursor-not-allowed";
+
   return (
     <div className="w-full">
       <div className="border-b border-gray-medium">
@@ -139,7 +142,7 @@ const TranslationTabs: React.FC<TranslationTabsProps> = ({ translations, activeT
                 <button
                     onClick={() => onGenerateVoiceover(activeTranslation.languageCode)}
                     disabled={activeTranslation.isGeneratingAudio}
-                    className="flex items-center justify-center px-5 py-2.5 bg-brand-primary text-white font-bold rounded-md hover:bg-brand-secondary transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+                    className={buttonClass}
                 >
                     {activeTranslation.isGeneratingAudio ? (
                         <><SpinnerIcon className="w-5 h-5 mr-2"/><span>Generating...</span></>
@@ -151,7 +154,7 @@ const TranslationTabs: React.FC<TranslationTabsProps> = ({ translations, activeT
                 <>
                     <button 
                       onClick={handlePlayPause}
-                      className="flex items-center justify-center px-5 py-2.5 bg-brand-primary text-white font-bold rounded-md hover:bg-brand-secondary transition-colors"
+                      className={buttonClass}
                     >
                       {isPlaying ? (
                         <><PauseIcon className="w-5 h-5 mr-2" /><span>Pause</span></>
@@ -162,10 +165,11 @@ const TranslationTabs: React.FC<TranslationTabsProps> = ({ translations, activeT
                     <a
                       href={activeTranslation.audioUrl}
                       download={`${activeTranslation.language}_voiceover.wav`}
-                      className="flex items-center justify-center p-2.5 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
+                      className={buttonClass}
                       aria-label="Download voiceover"
                     >
-                      <DownloadIcon className="w-5 h-5" />
+                      <DownloadIcon className="w-5 h-5 mr-2" />
+                      <span>Download</span>
                     </a>
                 </>
               )}
@@ -174,7 +178,7 @@ const TranslationTabs: React.FC<TranslationTabsProps> = ({ translations, activeT
                 <>
                     <button
                         onClick={handleShareTranscript}
-                        className="flex items-center justify-center px-5 py-2.5 bg-gray-500 text-white font-bold rounded-md hover:bg-gray-600 transition-colors"
+                        className={buttonClass}
                         title="Share Transcript"
                     >
                         <ShareIcon className="w-5 h-5 mr-2" />
@@ -183,7 +187,7 @@ const TranslationTabs: React.FC<TranslationTabsProps> = ({ translations, activeT
                     {activeTranslation.audioUrl && (
                         <button
                             onClick={handleShareVoiceover}
-                            className="flex items-center justify-center px-5 py-2.5 bg-gray-500 text-white font-bold rounded-md hover:bg-gray-600 transition-colors"
+                            className={buttonClass}
                             title="Share Voiceover"
                         >
                             <ShareIcon className="w-5 h-5 mr-2" />
