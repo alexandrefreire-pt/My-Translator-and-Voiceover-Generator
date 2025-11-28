@@ -109,7 +109,13 @@ const AudioInput: React.FC<AudioInputProps> = ({ onSubmit, onTextSubmit }) => {
             </p>
             <p className="text-xs text-gray-400">MP3, WAV, OGG, WEBM, etc.</p>
           </div>
-          <input id="audio-upload" type="file" className="hidden" accept="audio/*" onChange={handleFileChange} />
+          <input 
+            id="audio-upload" 
+            type="file" 
+            className="hidden" 
+            accept="audio/*,audio/mpeg,audio/wav,audio/mp4,audio/x-m4a,.mp3,.wav,.m4a,.mp4,.ogg,.webm" 
+            onChange={handleFileChange} 
+          />
         </label>
       </div>
 
