@@ -6,7 +6,7 @@ if (!API_KEY) {
   throw new Error("API_KEY environment variable not set");
 }
 
-const ai = new GoogleGenAI({ apiKey: API_KEY });
+const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_API_KEY });
 
 export async function detectLanguageFromText(text: string): Promise<{ languageName: string; languageCode: string; }> {
     const model = 'gemini-2.5-flash';
