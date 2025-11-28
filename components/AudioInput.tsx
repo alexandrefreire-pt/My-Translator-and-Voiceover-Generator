@@ -20,19 +20,22 @@ const AudioInput: React.FC<AudioInputProps> = ({ onSubmit, onTextSubmit }) => {
   };
 
   const getSupportedMimeType = () => {
+    // Prioritize MP4 for Safari/iOS compatibility
     const types = [
-      'audio/webm',
       'audio/mp4',
-      'audio/aac',
+      'audio/webm;codecs=opus',
+      'audio/webm',
       'audio/ogg',
       'audio/wav'
     ];
     for (const type of types) {
       if (MediaRecorder.isTypeSupported(type)) {
+        console.log(`Using supported mime type: ${type}`);
         return type;
       }
     }
-    return ''; // Let the browser default if none of the above match
+    console.warn("No specific mime type supported found, using default.");
+    return ''; // Let the browser default
   };
 
   const startRecording = useCallback(async () => {
@@ -55,17 +58,27 @@ const AudioInput: React.FC<AudioInputProps> = ({ onSubmit, onTextSubmit }) => {
       });
 
       recorder.addEventListener('stop', () => {
-        // Use the actual mimeType from the recorder, or fallback to the one we requested, or webm
-        const finalType = recorder.mimeType || mimeType || 'audio/webm';
+        // IMPORTANT: Use the actual mimeType from the recorder if available, otherwise the one we requested
+        // iOS Safari might default to audio/mp4 even if we asked for something else if unsupported
+        const finalType = recorder.mimeType || mimeType || 'audio/mp4'; 
+        console.log(`Recording stopped. Final mime type: ${finalType}, Chunks: ${audioChunksRef.current.length}`);
+        
         const audioBlob = new Blob(audioChunksRef.current, { type: finalType });
-        onSubmit(audioBlob);
+        console.log(`Created Blob size: ${audioBlob.size}`);
+        
+        if (audioBlob.size === 0) {
+            alert("Recording failed: Empty audio file. Please try again.");
+        } else {
+            onSubmit(audioBlob);
+        }
+        
         stream.getTracks().forEach(track => track.stop());
       });
 
       recorder.start();
     } catch (err) {
       console.error("Error accessing microphone:", err);
-      alert("Could not access microphone. Please ensure permissions are granted.");
+      alert("Could not access microphone. Please ensure permissions are granted and you are using HTTPS.");
     }
   }, [onSubmit]);
 

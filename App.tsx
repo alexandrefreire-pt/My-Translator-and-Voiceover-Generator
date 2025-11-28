@@ -24,6 +24,14 @@ const App: React.FC = () => {
   const [isEditingTranscript, setIsEditingTranscript] = useState(false);
   const [tempTranscript, setTempTranscript] = useState('');
 
+  const formatError = (err: any) => {
+    const msg = err?.message || 'Unknown error';
+    if (msg.includes('API Key') || msg.includes('400') || msg.includes('403')) {
+      return "Access Error: Please check if the API_KEY is correctly configured in your Vercel Project Settings.";
+    }
+    return msg;
+  };
+
   const handleAudioSubmit = useCallback(async (audioBlob: Blob) => {
     setStep('transcribing');
     setLoadingMessage('Transcribing audio...');
@@ -38,9 +46,7 @@ const App: React.FC = () => {
       setStep('transcribed');
     } catch (err: any) {
       console.error("Transcription error:", err);
-      // More detailed error message for debugging
-      const errorMessage = err?.message || 'Unknown error occurred';
-      setError(`Failed to transcribe audio: ${errorMessage}`);
+      setError(formatError(err));
       setStep('initial');
     }
   }, []);
@@ -62,7 +68,7 @@ const App: React.FC = () => {
       setStep('transcribed');
     } catch (err: any) {
       console.error("Text detection error:", err);
-      setError(`Failed to detect language: ${err?.message || 'Unknown error'}`);
+      setError(formatError(err));
       setStep('initial');
     }
   }, []);
@@ -236,7 +242,12 @@ const App: React.FC = () => {
         </header>
         
         <main className="bg-white border border-gray-medium rounded-lg shadow-xl p-6 md:p-8 min-h-[30rem] flex flex-col items-center justify-center transition-all duration-300">
-           {error && <div className="bg-red-100 border border-red-500 text-red-700 p-3 rounded-md mb-6 w-full text-center">{error}</div>}
+           {error && (
+             <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 mb-6 w-full rounded-md shadow-sm">
+                <p className="font-bold">Something went wrong</p>
+                <p>{error}</p>
+             </div>
+           )}
            {renderContent()}
         </main>
 
