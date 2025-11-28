@@ -1,7 +1,11 @@
 import { GoogleGenAI, Type, Modality } from '@google/genai';
 import { createWavFile } from '../utils/audioUtils';
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+const apiKey = process.env.API_KEY || '';
+if (!apiKey) {
+  console.error("API_KEY is missing from environment variables.");
+}
+const ai = new GoogleGenAI({ apiKey });
 
 export async function detectLanguageFromText(text: string): Promise<{ languageName: string; languageCode: string; }> {
     const model = 'gemini-2.5-flash';
@@ -26,7 +30,12 @@ Text: "${text}"`;
         }
     });
 
-    const result = JSON.parse(response.text.trim());
+    const responseText = response.text;
+    if (!responseText) {
+        throw new Error("No text content returned from language detection.");
+    }
+
+    const result = JSON.parse(responseText.trim());
     if (!result.languageName || !result.languageCode) {
         throw new Error("Could not determine the language from the text.");
     }
@@ -67,7 +76,12 @@ export async function transcribeAudio(audioBase64: string, mimeType: string): Pr
     }
   });
 
-  const result = JSON.parse(response.text.trim());
+  const responseText = response.text;
+  if (!responseText) {
+      throw new Error("No text content returned from transcription.");
+  }
+
+  const result = JSON.parse(responseText.trim());
   if (!result.languageName || !result.transcript || !result.languageCode) {
       throw new Error("Could not determine the language or transcribe the audio.");
   }
@@ -101,7 +115,12 @@ export async function translateText(text: string, sourceLanguage: string, langua
     }
   });
   
-  const jsonResponse = JSON.parse(response.text.trim());
+  const responseText = response.text;
+  if (!responseText) {
+      throw new Error("No text content returned from translation.");
+  }
+
+  const jsonResponse = JSON.parse(responseText.trim());
   return jsonResponse;
 }
 
@@ -121,6 +140,8 @@ export async function generateVoiceover(text: string): Promise<string> {
         },
     });
 
+    // The SDK typing suggests parts might be undefined, though in practice it's usually there.
+    // We add checks to satisfy TypeScript.
     const base64Audio = response.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
     if (!base64Audio) {
         throw new Error('No audio data received from API.');
