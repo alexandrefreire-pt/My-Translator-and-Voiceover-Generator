@@ -30,14 +30,17 @@ const App: React.FC = () => {
     setError(null);
     setDetectedLanguage(null);
     try {
+      console.log(`Processing audio: size=${audioBlob.size}, type=${audioBlob.type}`);
       const audioBase64 = await fileToBase64(new File([audioBlob], "audio"));
       const { transcript, languageName, languageCode } = await transcribeAudio(audioBase64, audioBlob.type);
       setOriginalTranscript(transcript);
       setDetectedLanguage({ name: languageName, code: languageCode });
       setStep('transcribed');
-    } catch (err) {
-      console.error(err);
-      setError('Failed to transcribe audio. Please try again.');
+    } catch (err: any) {
+      console.error("Transcription error:", err);
+      // More detailed error message for debugging
+      const errorMessage = err?.message || 'Unknown error occurred';
+      setError(`Failed to transcribe audio: ${errorMessage}`);
       setStep('initial');
     }
   }, []);
@@ -57,9 +60,9 @@ const App: React.FC = () => {
       setOriginalTranscript(text);
       setDetectedLanguage({ name: languageName, code: languageCode });
       setStep('transcribed');
-    } catch (err) {
-      console.error(err);
-      setError('Failed to detect the language from your text. Please try again.');
+    } catch (err: any) {
+      console.error("Text detection error:", err);
+      setError(`Failed to detect language: ${err?.message || 'Unknown error'}`);
       setStep('initial');
     }
   }, []);

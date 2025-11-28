@@ -19,20 +19,45 @@ const AudioInput: React.FC<AudioInputProps> = ({ onSubmit, onTextSubmit }) => {
     }
   };
 
+  const getSupportedMimeType = () => {
+    const types = [
+      'audio/webm',
+      'audio/mp4',
+      'audio/aac',
+      'audio/ogg',
+      'audio/wav'
+    ];
+    for (const type of types) {
+      if (MediaRecorder.isTypeSupported(type)) {
+        return type;
+      }
+    }
+    return ''; // Let the browser default if none of the above match
+  };
+
   const startRecording = useCallback(async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       setIsRecording(true);
       audioChunksRef.current = [];
-      const recorder = new MediaRecorder(stream);
+
+      const mimeType = getSupportedMimeType();
+      const options = mimeType ? { mimeType } : undefined;
+
+      // Initialize recorder with supported mimeType if found
+      const recorder = new MediaRecorder(stream, options);
       mediaRecorderRef.current = recorder;
 
       recorder.addEventListener('dataavailable', event => {
-        audioChunksRef.current.push(event.data);
+        if (event.data.size > 0) {
+            audioChunksRef.current.push(event.data);
+        }
       });
 
       recorder.addEventListener('stop', () => {
-        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+        // Use the actual mimeType from the recorder, or fallback to the one we requested, or webm
+        const finalType = recorder.mimeType || mimeType || 'audio/webm';
+        const audioBlob = new Blob(audioChunksRef.current, { type: finalType });
         onSubmit(audioBlob);
         stream.getTracks().forEach(track => track.stop());
       });
@@ -45,7 +70,7 @@ const AudioInput: React.FC<AudioInputProps> = ({ onSubmit, onTextSubmit }) => {
   }, [onSubmit]);
 
   const stopRecording = useCallback(() => {
-    if (mediaRecorderRef.current) {
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
       mediaRecorderRef.current.stop();
       setIsRecording(false);
     }
